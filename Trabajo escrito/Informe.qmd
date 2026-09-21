@@ -24,3 +24,29 @@ format:
    include-before-body: Portada.tex
 ---
 
+# Definición de los indicadores
+
+Para el presente trabajo se analizarán los países Alemania, Bolivia y Costa Rica, los cuales se compararán por medio de tres indicadores, el coeficiente de Gini, la tasa de desempleo y la inversión en educación de cada uno de estos países. A continuación se muestra la definición de cada uno de estos indicadores:
+
+-   *Coeficiente de Gini:* Este indicador mide la desigualdad de ingreso existente dentro de un país, es uno de los indicadores más utilizados debido a la facilidad de su cálculo y simplicidad de interpretación. Para calcularlo se hace el cociente entre el área entre la curva de Lorenz y la línea de igualdad perfecta y se divide entre el área entre la curva de Lorenz y la línea de igualdad perfecta más el área bajo la curva de Lorenz. Este coeficiente brinda un número entre 0 y 1, donde entre más cerca del 0 se esté, mayor igualdad existe en la economía, mientras que entre más cerca del 1 se esté, mayor desigualdad existe @medina2001gini. 
+
+-   *Tasa de Desempleo:* Este indicador representa la proporción de personas que se encuentran desempleadas con respecto a la fuerza laboral total en un año determinado; donde la fuerza laboral es la suma de la cantidad de personas empleadas y desempleadas. Se considera persona desempleada a aquella que está en edad para trabajar, está disponible para trabajar, busca activamente empleo, pero que durante el periodo de referencia no tiene empleo. Este indicador refleja la capacidad o incapacidad de una economía para generar empleo para aquellas personas que buscan empleo pero no lo poseen. @bancomundial2026desempleo.
+
+-   *Inversión en educación:* Este indicador mide el gasto público en educación de una economía, expresado como un porcentaje del PIB, se calcula dividiendo el gasto público total en educación entre el PIB y multiplicando por 100 para obtener así un porcentaje. El gasto en educación incluye bienes y servicios educativos fundamentales como el salario de los profesores, libros, infraestructura escolar y materiales didácticos; además, incluye bienes y servicios educativos complementarios como servicios de apoyo, administración general, etc. @bancomundial2026educacion.
+
+# Problemática económica alrededor de los indicadores
+
+
+
+# Relevancia individual y conjunta de los indicadores para la política económica
+
+
+
+
+
+# Relación de los indicadores
+
+
+
+
+#
