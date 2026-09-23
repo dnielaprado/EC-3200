@@ -24,6 +24,7 @@ format:
    include-before-body: Portada.tex
 ---
 \setlength{\parskip}{6pt}
+
 # Definición de los indicadores
 
 Para el presente trabajo se analizarán los países Alemania, Bolivia y Costa Rica, los cuales se compararán por medio de tres indicadores, el coeficiente de Gini, la tasa de desempleo y la inversión en educación de cada uno de estos países, en el periodo del año 2016 al 2022 debido a la disponibilidad de datos de estos tres países. A continuación se muestra la definición de cada uno de estos indicadores:
@@ -44,10 +45,13 @@ Para el presente trabajo se analizarán los países Alemania, Bolivia y Costa Ri
 
 # Relevancia individual y conjunta de los indicadores para la política económica
 
+El coeficiente de Gini es relevante para la política económica porque permite evaluar la dimensión distributiva del desempeño de una economía. El crecimiento del ingreso o de la producción no permite determinar, por sí solo, cómo se distribuyen los recursos entre la población, por lo que una medida de desigualdad aporta información adicional sobre los resultados económicos. Atkinson [-@atkinson1970inequality] señala que las medidas de desigualdad permiten comparar distribuciones del ingreso y analizar sus implicaciones distributivas y de bienestar. En este sentido, el coeficiente de Gini constituye una herramienta útil para identificar cambios en la concentración del ingreso y proporcionar información relevante para la formulación y evaluación de políticas redistributivas. Sin embargo, al tratarse de una medida resumida de la distribución, debe interpretarse en conjunto con otros indicadores que permitan caracterizar de manera más amplia las condiciones económicas de la población.
 
+La tasa de desempleo constituye un indicador relevante para la política económica porque refleja el grado en que la economía logra incorporar al mercado laboral a las personas que se encuentran disponibles y buscan activamente empleo. Su evolución proporciona información sobre la utilización del factor trabajo y sobre las condiciones generales del mercado laboral. Ball, Leigh y Loungani [-@ball2017okun] documentan una relación sistemática entre las variaciones de la producción y del desempleo en diferentes economías, aunque encuentran diferencias importantes entre países. Por tanto, el seguimiento del desempleo resulta relevante para el diseño y evaluación de políticas de estabilización y empleo, ya que permite identificar situaciones en las que una parte de la fuerza laboral disponible no está siendo utilizada en el proceso productivo.
 
+El gasto público en educación como porcentaje del PIB es relevante para la política económica porque refleja la cantidad relativa de recursos que el sector público destina al sistema educativo. A diferencia del coeficiente de Gini y de la tasa de desempleo, que reflejan principalmente resultados o condiciones económicas, este indicador representa una decisión de asignación de recursos públicos. Sylwester [-@sylwester2002education] encuentra, mediante evidencia comparativa entre países, que un mayor gasto público en educación puede estar asociado con reducciones posteriores de la desigualdad del ingreso, señalando además que estos efectos pueden manifestarse con rezago. De esta manera, el indicador permite valorar la prioridad fiscal otorgada a la educación y su posible contribución a objetivos económicos de más largo plazo. No obstante, un mayor gasto como proporción del PIB no implica necesariamente una mayor calidad educativa ni garantiza, por sí mismo, mejores resultados económicos.
 
-
+La relevancia conjunta de los tres indicadores radica en que permiten analizar dimensiones diferentes pero complementarias del desempeño económico y de la política pública. El coeficiente de Gini proporciona información sobre la distribución del ingreso; la tasa de desempleo muestra las condiciones de utilización del factor trabajo; y el gasto público en educación refleja una dimensión de la intervención estatal y de la asignación presupuestaria. Analizarlos conjuntamente permite construir un diagnóstico más amplio que el que se obtendría mediante cualquiera de ellos de forma aislada, al considerar simultáneamente resultados distributivos, condiciones del mercado laboral y decisiones de política pública [@atkinson1970inequality; @ball2017okun; @sylwester2002education]. Esta perspectiva resulta especialmente útil para comparar Costa Rica, Alemania y Bolivia, economías con características estructurales distintas, y observar si las diferencias entre países se presentan de manera simultánea en estas tres dimensiones. Sin embargo, la comparación conjunta no supone que exista una relación causal automática entre los indicadores, pues sus resultados también pueden estar determinados por factores institucionales, productivos, demográficos y laborales propios de cada país.
 
 
 # Relación de los indicadores
@@ -57,10 +61,9 @@ Para el presente trabajo se analizarán los países Alemania, Bolivia y Costa Ri
 
 
 # Datos a utilizar
+
 Para el presente trabajo, como se mencionó anteriormente, se analizarán los siguientes indicadores, coeficiente de Gini, tasa de desempleo e inversión en educación medido como porcentaje del PIB, contemplando los países Alemania, Bolivia y Costa Rica en el periodo del año 2016 al 2022. Los datos de dichos indicadores se obtendrán por medio del Banco Mundial, de la base de datos World Development Indicators (WDI), esta base de datos posee distintos códigos según el indicador, ya que un indicador puede tener distintas variantes, por lo que para este proyecto se trabajó con el código de indicador `SI.POV.GINI` para el coeficiente de Gini, `SL.UEM.TOTL.NE.ZS` para la tasa de desempleo y `SE.XPD.TOTL.GD.ZS` para la inversión en educación.    
 
 Se utilizó el paquete `WDI` del programa R, para descargar los datos de la base de datos World Development Indicators del Banco Mundial. [@bancomundial2026wdi].  
 
 Esta fuente fue seleccionada ya que posee gran cobertura de datos internacionales, incluidos los países e indicadores seleccionados; además posee una metodología con detallada descripción sobre cada indicador. Además de esto, es una organización reconocida y utilizada internacionalmente por distintas organizaciones como la OCDE o la CEPAL. Otra de las razones por la que se seleccionó esta fuente es que los datos son públicos, por lo que cualquier persona puede acceder a ellos; añadiendo que se actualiza regularmente con nueva información brindada por distintos países. A pesar de esto, existe la limitación de que algunos indicadores carecen de información para algunos años, es por esto que se contempló el periodo antes mencionado y no uno más reciente, debido a que no todos los países tenían información de años más recientes. 
-
-
