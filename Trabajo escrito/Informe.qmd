@@ -67,3 +67,5 @@ Para el presente trabajo, como se mencionó anteriormente, se analizarán los si
 Se utilizó el paquete `WDI` del programa R, para descargar los datos de la base de datos World Development Indicators del Banco Mundial. [@bancomundial2026wdi].  
 
 Esta fuente fue seleccionada ya que posee gran cobertura de datos internacionales, incluidos los países e indicadores seleccionados; además posee una metodología con detallada descripción sobre cada indicador. Además de esto, es una organización reconocida y utilizada internacionalmente por distintas organizaciones como la OCDE o la CEPAL. Otra de las razones por la que se seleccionó esta fuente es que los datos son públicos, por lo que cualquier persona puede acceder a ellos; añadiendo que se actualiza regularmente con nueva información brindada por distintos países. A pesar de esto, existe la limitación de que algunos indicadores carecen de información para algunos años, es por esto que se contempló el periodo antes mencionado y no uno más reciente, debido a que no todos los países tenían información de años más recientes. 
+
+# Referencias
