@@ -23,17 +23,17 @@ format:
             - \setlength{\parindent}{1.27cm} 
    include-before-body: Portada.tex
 ---
-\setlength{\parskip}{6pt}
+\newpage
 
 # Definición de los indicadores
 
-Para el presente trabajo se analizarán los países Alemania, Bolivia y Costa Rica, los cuales se compararán por medio de tres indicadores, el coeficiente de Gini, la tasa de desempleo y la inversión en educación de cada uno de estos países, en el periodo del año 2016 al 2022 debido a la disponibilidad de datos de estos tres países. A continuación se muestra la definición de cada uno de estos indicadores:
+Para el presente trabajo se analizarán los países Alemania, Bolivia y Costa Rica, los cuales se compararán por medio de tres indicadores, el coeficiente de Gini, la tasa de desempleo y el gasto en educación de cada uno de estos países, en el periodo del año 2016 al 2022 debido a la disponibilidad de datos de estos tres países. A continuación se muestra la definición de cada uno de estos indicadores:
 
 -   *Coeficiente de Gini:* Este indicador mide la desigualdad de ingreso existente dentro de un país, es uno de los indicadores más utilizados debido a la facilidad de su cálculo y simplicidad de interpretación. Para calcularlo se hace el cociente entre el área entre la curva de Lorenz y la línea de igualdad perfecta y se divide entre el área entre la curva de Lorenz y la línea de igualdad perfecta más el área bajo la curva de Lorenz. Este coeficiente brinda un número entre 0 y 1, donde entre más cerca del 0 se esté, mayor igualdad existe en la economía, mientras que entre más cerca del 1 se esté, mayor desigualdad existe [@medina2001gini]. 
 
 -   *Tasa de Desempleo:* Este indicador representa la proporción de personas que se encuentran desempleadas con respecto a la fuerza laboral total en un año determinado; donde la fuerza laboral es la suma de la cantidad de personas empleadas y desempleadas. Se considera persona desempleada a aquella que está en edad para trabajar, está disponible para trabajar, busca activamente empleo, pero que durante el periodo de referencia no tiene empleo. Este indicador refleja la capacidad o incapacidad de una economía para generar empleo para aquellas personas que buscan empleo pero no lo poseen. [@bancomundial2026desempleo].
 
--   *Inversión en educación:* Este indicador mide el gasto público en educación de una economía, expresado como un porcentaje del PIB nominal, se calcula dividiendo el gasto público total en educación entre el PIB y multiplicando por 100 para obtener así un porcentaje. El gasto en educación incluye bienes y servicios educativos fundamentales como el salario de los profesores, libros, infraestructura escolar y materiales didácticos; además, incluye bienes y servicios educativos complementarios como servicios de apoyo, administración general, etc. [@bancomundial2026educacion].
+-   *Gasto en educación:* Este indicador mide el gasto público en educación de una economía, expresado como un porcentaje del PIB nominal, se calcula dividiendo el gasto público total en educación entre el PIB y multiplicando por 100 para obtener así un porcentaje. El gasto en educación incluye bienes y servicios educativos fundamentales como el salario de los profesores, libros, infraestructura escolar y materiales didácticos; además, incluye bienes y servicios educativos complementarios como servicios de apoyo, administración general, etc. [@bancomundial2026educacion].
 
 
 # Problemática económica alrededor de los indicadores
@@ -75,10 +75,12 @@ En conjunto, los tres indicadores describen una cadena: el gasto público en edu
 
 # Datos a utilizar
 
-Para el presente trabajo, como se mencionó anteriormente, se analizarán los siguientes indicadores, coeficiente de Gini, tasa de desempleo e inversión en educación medido como porcentaje del PIB, contemplando los países Alemania, Bolivia y Costa Rica en el periodo del año 2016 al 2022. Los datos de dichos indicadores se obtendrán por medio del Banco Mundial, de la base de datos World Development Indicators (WDI), esta base de datos posee distintos códigos según el indicador, ya que un indicador puede tener distintas variantes, por lo que para este proyecto se trabajó con el código de indicador `SI.POV.GINI` para el coeficiente de Gini, `SL.UEM.TOTL.NE.ZS` para la tasa de desempleo y `SE.XPD.TOTL.GD.ZS` para la inversión en educación.    
+Para el presente trabajo, como se mencionó anteriormente, se analizarán los siguientes indicadores, coeficiente de Gini, tasa de desempleo y gasto en educación medido como porcentaje del PIB, contemplando los países Alemania, Bolivia y Costa Rica en el periodo del año 2016 al 2022. Los datos de dichos indicadores se obtendrán por medio del Banco Mundial, de la base de datos World Development Indicators (WDI), esta base de datos posee distintos códigos según el indicador, ya que un indicador puede tener distintas variantes, por lo que para este proyecto se trabajó con el código de indicador `SI.POV.GINI` para el coeficiente de Gini, `SL.UEM.TOTL.NE.ZS` para la tasa de desempleo y `SE.XPD.TOTL.GD.ZS` para el gasto en educación.    
 
 Se utilizó el paquete `WDI` del programa R, para descargar los datos de la base de datos World Development Indicators del Banco Mundial. [@bancomundial2026wdi].  
 
 Esta fuente fue seleccionada ya que posee gran cobertura de datos internacionales, incluidos los países e indicadores seleccionados; además posee una metodología con detallada descripción sobre cada indicador. Además de esto, es una organización reconocida y utilizada internacionalmente por distintas organizaciones como la OCDE o la CEPAL. Otra de las razones por la que se seleccionó esta fuente es que los datos son públicos, por lo que cualquier persona puede acceder a ellos; añadiendo que se actualiza regularmente con nueva información brindada por distintos países. A pesar de esto, existe la limitación de que algunos indicadores carecen de información para algunos años, es por esto que se contempló el periodo antes mencionado y no uno más reciente, debido a que no todos los países tenían información de años más recientes. 
+
+\newpage
 
 # Referencias
