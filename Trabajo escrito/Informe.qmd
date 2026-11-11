@@ -19,8 +19,11 @@ format:
    margin-top: "2.54cm"
    margin-bottom: "2.54cm"
    header-includes:
-            - \usepackage{indentfirst}
-            - \setlength{\parindent}{1.27cm} 
+     - \usepackage{indentfirst}
+     - \setlength{\parindent}{1.27cm}
+     - \setlength{\parskip}{6pt}
+     - \usepackage{caption}
+     - \captionsetup[table]{labelsep=newline, justification=raggedright, singlelinecheck=false, labelfont=bf, skip=1pt}
    include-before-body: Portada.tex
 ---
 \newpage
