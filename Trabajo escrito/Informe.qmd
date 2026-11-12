@@ -75,7 +75,6 @@ Finalmente, el gasto en educación se relaciona directamente con el coeficiente 
 
 En conjunto, los tres indicadores describen una cadena: el gasto público en educación contribuye a formar capital humano, este mejora las condiciones de inserción en el mercado laboral y, con ello, incide en la distribución del ingreso que refleja el coeficiente de Gini. No obstante, esta relación no es unidireccional ni inmediata, y no puede descartarse la causalidad inversa, pues la desigualdad también podría condicionar el acceso a la educación. Por esta razón, en el análisis comparativo de Costa Rica, Alemania y Bolivia estos vínculos se tratarán como asociaciones y no como relaciones causales, considerando posibles rezagos entre el gasto y sus resultados.
 
-
 Se eligió a Alemania como el país de mayor desarrollo relativo ya que posee un PIB per cápita de \$50,506.5 en el 2022, según los datos a precios actuales y un Índice de Desarrollo Humano (IDH) de 0.955 para el mismo año. Por otro lado, se seleccionó a Bolivia como el país de menor desarrollo relativo, al presentar un PIB per cápita de \$4,219.5 y un IDH de 0.727 en el 2022. En contraste, Costa Rica representa un punto medio entre estos dos países, ya que obtuvo un PIB per cápita de \$13,971.8 y un IDH de 0.823 en el 2022 [@bancomundial2026pib; @pnud2022idh].
 
 # Datos a utilizar
@@ -138,6 +137,54 @@ datos.limpios |>
 
 ```
 
+
+```{r, tbl-tabla-ajuste, echo=FALSE, message=FALSE, warning=FALSE, tab.cap='Ajustes Realizados a Partir del Avance'}
+
+ajustes <- data.frame(
+  Comentario = c(
+    "Sección 4: ¿Cómo los seleccionaron los países?", 
+    "Sección 5: Puntuación de la cita", 
+    "Sección 5: ¿Cuáles países no tienen datos de años más recientes?",
+    "Comentario", 
+    "Comentario",
+    "Comentario"
+  ),
+  Solucion = c(
+    "Se agregó un párrafo justificando el PIB per cápita y el IDH de cada país.", 
+    "Se eliminó el punto antes del paréntesis de la cita.",
+    "Se especificó en el texto qué indicadores faltaban y en qué años para cada país.",
+    "Solución ", 
+    "Solución ",
+    "Solución "
+  ),
+  Ubicacion = c(
+    "Sección 4, párrafo final.", 
+    "Sección 5, segundo párrafo.",
+    "Sección 5, párrafo final.", 
+    "Sección...", 
+    "Sección...",
+    "Sección..."
+  )
+)
+
+
+kable(
+  ajustes, 
+  format = "latex", 
+  booktabs = TRUE, 
+  longtable = TRUE,
+  col.names = c("Comentario del docente", "Cómo se solventó", "En qué parte del documento"),
+  caption = "Ajustes realizados al avance del Policy Report"
+) |>
+  kable_styling(
+    latex_options = c("striped", "HOLD_position"), 
+    full_width = FALSE,
+    font_size = 9 
+  ) |>
+  column_spec(1, width = "6cm") |>  
+  column_spec(2, width = "6cm") |>
+  column_spec(3, width = "4cm")
+```
 
 
 \newpage
