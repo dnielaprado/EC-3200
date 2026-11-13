@@ -112,6 +112,7 @@ datos.limpios <- datos |>
   mutate(Pais = str_replace_all(Pais, "Germany", "Alemania")) # Cambiar de "Germany" a "Alemania"
   
 # Guardar los datos
+dir.create("../datos", showWarnings = FALSE)
 write.csv(datos.limpios, "../datos/datos_policy_report.csv", row.names = FALSE)
 
 datos.limpios |>
@@ -186,6 +187,108 @@ kable(
   column_spec(3, width = "4cm")
 ```
 
+
+# Cálculos de variación, volatilidad y correlaciones
+
+Con la base de datos del Banco Mundial presentada en la sección anterior, se calcularon tres medidas básicas para cada indicador y país. La primera es la tasa de variación anual, que mide el cambio porcentual respecto al año anterior: $(x_t / x_{t-1} - 1) \times 100$, donde $x_t$ es el valor del indicador en el año $t$. Por ejemplo, la tasa de desempleo de Costa Rica pasó de 10.81 % en 2019 a 16.43 % en 2020, lo que equivale a una variación de $(16.43 / 10.81 - 1) \times 100 = 52.1$ %. Como el periodo tiene siete años, cada serie genera seis variaciones (2017-2022).
+
+La segunda es la volatilidad, medida como la desviación estándar muestral de esas seis variaciones: entre mayor es, más cambia el indicador de un año a otro. La tercera es la correlación de Pearson ($r$), que resume qué tan juntas se mueven dos series y toma valores entre $-1$ y $1$. Se calculó por país, entre cada par de indicadores, con los siete valores anuales de cada serie.
+
+```{r, calculos-variacion, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+base <- datos.limpios |>
+  mutate(Pais = factor(Pais, levels = c("Costa Rica", "Alemania", "Bolivia"))) |>
+  arrange(Pais, Anyo)
+
+# Tasas de variación anual (%)
+variaciones <- base |>
+  group_by(Pais) |>
+  mutate(across(c(Gini, Desempleo, Educacion),
+                ~ (.x / lag(.x) - 1) * 100,
+                .names = "var_{.col}")) |>
+  ungroup()
+
+# Volatilidad: desviación estándar de las variaciones anuales
+volatilidad <- variaciones |>
+  group_by(Pais) |>
+  summarise(across(starts_with("var_"), ~ sd(.x, na.rm = TRUE)), .groups = "drop")
+
+# Correlaciones de Pearson entre indicadores, por país
+correlaciones <- base |>
+  group_by(Pais) |>
+  summarise(`Gini-Desempleo` = cor(Gini, Desempleo),
+            `Gini-Educación` = cor(Gini, Educacion),
+            `Desempleo-Educación` = cor(Desempleo, Educacion),
+            .groups = "drop")
+
+# Resultados
+dir.create("../datos", showWarnings = FALSE)
+write.csv(variaciones, "../datos/variaciones.csv", row.names = FALSE)
+write.csv(volatilidad, "../datos/volatilidad.csv", row.names = FALSE)
+write.csv(correlaciones, "../datos/correlaciones.csv", row.names = FALSE)
+```
+
+A continuación se presentan las tasas de variación anual de los tres indicadores, expresadas como porcentaje respecto al año anterior.
+
+```{r, tbl-variaciones, echo=FALSE, message=FALSE, warning=FALSE, tab.cap='Tasa de variación anual de los indicadores, 2017-2022 (porcentaje)'}
+
+variaciones |>
+  filter(Anyo > 2016) |>
+  select(Pais, Anyo, var_Gini, var_Desempleo, var_Educacion) |>
+  kable(
+    format = "latex",
+    booktabs = TRUE,
+    digits = 1,
+    col.names = c("País", "Año", "Gini (%)", "Desempleo (%)", "Educación (%)"),
+    align = c("l", "c", "c", "c", "c"),
+    longtable = TRUE,
+    caption = "Tasa de variación anual de los indicadores, 2017-2022 (porcentaje)"
+  ) |>
+  kable_styling(latex_options = c("striped", "HOLD_position"),
+                full_width = FALSE,
+                font_size = 10
+                ) |>
+  footnote(
+    general_title = "Fuente: ",
+    general = "Elaboración propia con datos del Banco Mundial (2026).",
+    footnote_as_chunk = TRUE
+  )
+```
+
+La volatilidad de cada indicador se resume en el siguiente cuadro.
+
+```{r, tbl-volatilidad, echo=FALSE, message=FALSE, warning=FALSE, tab.cap='Volatilidad de los indicadores, 2017-2022 (desviación estándar de las variaciones anuales, en puntos porcentuales)'}
+
+volatilidad |>
+  kable(format = "latex", booktabs = TRUE, longtable = TRUE, digits = 1,
+        col.names = c("País", "Gini", "Desempleo", "Gasto en educación"),
+        align = c("l", "c", "c", "c"),
+        caption = "Volatilidad de los indicadores, 2017-2022 (desviación estándar de las variaciones anuales, en puntos porcentuales)") |>
+  kable_styling(latex_options = c("striped", "HOLD_position"), full_width = FALSE, font_size = 10) |>
+  footnote(general_title = "Fuente: ",
+           general = "Elaboración propia con datos del Banco Mundial (2026).",
+           footnote_as_chunk = TRUE)
+```
+
+El desempleo es el indicador más volátil en los tres países, y Bolivia presenta la mayor volatilidad (54.9 puntos porcentuales), seguida por Costa Rica (27.1) y Alemania (13.2). En buena parte esto se debe a 2020, cuando el desempleo de Bolivia pasó de 3.68 % a 7.90 % (+114.6 %). Al ser variaciones porcentuales de tasas con niveles bajos, un cambio pequeño en puntos porcentuales se traduce en una variación porcentual grande, por lo que conviene leer estos valores junto con los niveles. El Gini es el menos volátil, con valores entre 1.2 (Alemania) y 3.9 (Bolivia), y el gasto en educación tiene una volatilidad similar entre países (entre 3.7 y 4.8).
+
+```{r, tbl-correlaciones, echo=FALSE, message=FALSE, warning=FALSE, tab.cap='Correlación de Pearson entre indicadores, 2016-2022'}
+
+correlaciones |>
+  kable(format = "latex", booktabs = TRUE, longtable = TRUE, digits = 2,
+        col.names = c("País", "Gini-Desempleo", "Gini-Educación", "Desempleo-Educación"),
+        align = c("l", "c", "c", "c"),
+        caption = "Correlación de Pearson entre indicadores, 2016-2022") |>
+  kable_styling(latex_options = c("striped", "HOLD_position"), full_width = FALSE, font_size = 10) |>
+  footnote(general_title = "Fuente: ",
+           general = "Elaboración propia con datos del Banco Mundial (2026).",
+           footnote_as_chunk = TRUE)
+```
+
+Con solo siete observaciones por país, un coeficiente debe superar aproximadamente 0.75 en valor absoluto para distinguirse del azar con un nivel de significancia de 5 %, y en el cuadro solo la correlación entre Gini y gasto en educación de Alemania (0.79) lo hace. Incluso en ese caso, ambas series crecen a lo largo del periodo, por lo que pueden moverse juntas por su tendencia sin que exista una relación de fondo. Por esta razón, los coeficientes se toman como indicios de comovimiento y no como evidencia de causalidad.
 
 \newpage
 
