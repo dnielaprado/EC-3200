@@ -74,6 +74,10 @@ Finalmente, el gasto en educación se relaciona directamente con el coeficiente 
 
 En conjunto, los tres indicadores describen una cadena: el gasto público en educación contribuye a formar capital humano, este mejora las condiciones de inserción en el mercado laboral y, con ello, incide en la distribución del ingreso que refleja el coeficiente de Gini. No obstante, esta relación no es unidireccional ni inmediata, y no puede descartarse la causalidad inversa, pues la desigualdad también podría condicionar el acceso a la educación. Por esta razón, en el análisis comparativo de Costa Rica, Alemania y Bolivia estos vínculos se tratarán como asociaciones y no como relaciones causales, considerando posibles rezagos entre el gasto y sus resultados.
 
+**Hipótesis para la comparación.** A partir de estos vínculos, se espera una asociación positiva entre la tasa de desempleo y el coeficiente de Gini, debido a que la pérdida de ingresos laborales puede ampliar las brechas entre hogares. Por otra parte, se esperan asociaciones negativas entre el gasto público en educación y los otros dos indicadores, siempre que dicho gasto se traduzca en mejores aprendizajes, mayores oportunidades laborales y una distribución más equitativa del capital humano [@checchi2008labour; @mincer1991education; @sylwester2002education]. Estas relaciones constituyen hipótesis y no implican que las correlaciones contemporáneas deban tener esos signos: la educación produce efectos con rezago, y el gasto como porcentaje del PIB puede cambiar por variaciones del denominador.
+
+En la comparación entre países, se espera que Alemania, por su mayor desarrollo relativo, registre menor desempleo y desigualdad que Costa Rica. Para Bolivia, una tasa de desempleo reducida no necesariamente indicaría mejores condiciones laborales, debido al papel que puede desempeñar la informalidad [@perry2008informalidad]. No se plantea un orden obligatorio para el gasto educativo entre los países: una mayor proporción del PIB no equivale a mayor gasto por estudiante ni garantiza mayor calidad de aprendizaje. Se prevé que Costa Rica presente dificultades persistentes de empleo y distribución del ingreso pese a su esfuerzo presupuestario educativo. Estas expectativas serán contrastadas con los niveles y las correlaciones, sin atribuir causalidad a las asociaciones observadas.
+
 Se eligió a Alemania como el país de mayor desarrollo relativo ya que posee un PIB per cápita de \$50,506.5 en el 2022, según los datos a precios actuales y un Índice de Desarrollo Humano (IDH) de 0.955 para el mismo año. Por otro lado, se seleccionó a Bolivia como el país de menor desarrollo relativo, al presentar un PIB per cápita de \$4,219.5 y un IDH de 0.727 en el 2022. En contraste, Costa Rica representa un punto medio entre estos dos países, ya que obtuvo un PIB per cápita de \$13,971.8 y un IDH de 0.823 en el 2022 [@bancomundial2026pib; @pnud2022idh].
 
 # Datos a utilizar
@@ -148,7 +152,10 @@ ajustes <- data.frame(
     "Sección 2: Cita muy vieja (Trejos y Oviedo, 2012)",
     "Sección 4: ¿Cómo los seleccionaron los países?", 
     "Sección 5: Puntuación de la cita", 
-    "Sección 5: ¿Cuáles países no tienen datos de años más recientes?"
+    "Sección 5: ¿Cuáles países no tienen datos de años más recientes?",
+    "Sección 2: relación entre desempleo bajo e informalidad.",
+    "Sección 3: ¿cómo interactúan los indicadores?",
+    "Sección 4: ¿qué se espera encontrar entre países?"
   ),
   Solucion = c(
     "Se definió la curva de Lorenz y la línea de igualdad perfecta dentro de la definición del coeficiente de Gini.", 
@@ -158,7 +165,10 @@ ajustes <- data.frame(
     "Se eliminó la referencia a Trejos y Oviedo (2012) y se reemplazó por información más reciente de la OCDE (2023) sobre la desigualdad.",
     "Se agregó un párrafo justificando el PIB per cápita y el IDH de cada país.", 
     "Se eliminó el punto antes del paréntesis de la cita.",
-    "Se especificó en el texto qué indicadores faltaban y en qué años para cada país."
+    "Se especificó en el texto qué indicadores faltaban y en qué años para cada país.",
+    "Se aclaró que una tasa reducida puede coexistir con informalidad y empleos de baja productividad.",
+    "Se explicitaron los canales de transmisión por capital humano y empleo, sin atribuir causalidad automática.",
+    "Se formularon hipótesis comparativas verificables y se distinguió entre gasto relativo y resultados educativos."
   ),
   Ubicacion = c(
     "Sección 1, primer indicador (coeficiente de Gini).", 
@@ -168,7 +178,10 @@ ajustes <- data.frame(
     "Sección 2, párrafo final.",
     "Sección 4, párrafo final.", 
     "Sección 5, segundo párrafo.",
-    "Sección 5, párrafo final."
+    "Sección 5, párrafo final.",
+    "Sección 2, segundo indicador; análisis del desempleo.",
+    "Sección 4, relación de los indicadores.",
+    "Sección 4, hipótesis para la comparación."
   )
 )
 
@@ -322,6 +335,62 @@ En 2020, Alemania (+9,7 %) y Bolivia (+4,3 %) aumentan su gasto como porcentaje 
 
 Además, estos niveles no miden calidad educativa, solo cuánto destina el sector público. Bolivia gasta más que el promedio de América Latina y el Caribe, sobre todo en salarios docentes, y aun así sus resultados de aprendizaje están por debajo del promedio regional [@marotta2026cima]; para el crecimiento importan las habilidades que se aprenden y no solo el gasto o los años de escuela [@hanushek2012schools]. Por la misma razón, un porcentaje menor del PIB no implica menos inversión por estudiante: Alemania, con una economía mucho más grande, probablemente gasta más por alumno que los otros dos países pese a destinar menos.
 
+# Análisis de la tasa de desempleo
+
+```{r grafico-desempleo, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5.8, fig.height=3.7, fig.align='center', fig.pos='H', dev='png', dpi=300, fig.alt='Tasas anuales de desempleo de Costa Rica, Alemania y Bolivia entre 2016 y 2022.'}
+df_des <- datos.limpios |>
+  mutate(Pais = factor(Pais, levels = c("Costa Rica", "Alemania", "Bolivia"))) |>
+  arrange(Pais, Anyo)
+
+etiquetas_des <- df_des |>
+  filter(Anyo %in% c(2016, 2022)) |>
+  mutate(vj = case_when(Pais == "Alemania" ~ 1.9, TRUE ~ -0.9))
+
+ggplot(df_des, aes(x = Anyo, y = Desempleo, color = Pais,
+                   linetype = Pais, shape = Pais)) +
+  geom_line(linewidth = 0.8, na.rm = TRUE) +
+  geom_point(size = 2.2, na.rm = TRUE) +
+  geom_text(data = etiquetas_des,
+            aes(label = sprintf("%.1f", Desempleo), vjust = vj),
+            size = 3, show.legend = FALSE, na.rm = TRUE) +
+  scale_x_continuous(breaks = 2016:2022, expand = expansion(add = 0.3)) +
+  scale_y_continuous(limits = c(0, NA), breaks = scales::breaks_width(2),
+                     expand = expansion(mult = c(0, 0.09))) +
+  scale_color_manual(values = c("Costa Rica" = "#1B4F9C",
+                                "Alemania" = "#555555", "Bolivia" = "#C0392B")) +
+  scale_linetype_manual(values = c("Costa Rica" = "solid",
+                                   "Alemania" = "dashed", "Bolivia" = "dotdash")) +
+  scale_shape_manual(values = c("Costa Rica" = 16, "Alemania" = 17, "Bolivia" = 15)) +
+  labs(title = "Gráfico 7.2\nCosta Rica, Alemania y Bolivia: tasa de desempleo según año, 2016-2022",
+       subtitle = "(Porcentaje de la fuerza laboral)",
+       x = "Años", y = "Porcentaje",
+       color = NULL, linetype = NULL, shape = NULL,
+       caption = paste0("Nota: Desempleo total, estimaciones nacionales; indicador SL.UEM.TOTL.NE.ZS.\n",
+                        "Fuente: Elaboración propia con datos del Banco Mundial (2026).")) +
+  theme_minimal(base_size = 10, base_family = "serif") +
+  theme(legend.position = "bottom",
+        legend.margin = margin(t = -6),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_line(color = "grey85"),
+        axis.line.x = element_line(color = "grey40"),
+        plot.title = element_text(face = "bold", size = 10),
+        plot.subtitle = element_text(size = 8),
+        plot.caption = element_text(hjust = 0, size = 8),
+        plot.title.position = "plot",
+        plot.caption.position = "plot")
+```
+
+La tasa de desempleo muestra diferencias relevantes entre Costa Rica, Alemania y Bolivia durante 2016-2022 (@tbl-datos-iniciales y Gráfico 7.2). Costa Rica registra niveles considerablemente superiores a los de los otros dos países. Para evitar mezclar definiciones, el gráfico y los cálculos utilizan la serie de *estimaciones nacionales* del Banco Mundial (`SL.UEM.TOTL.NE.ZS`); esta debe distinguirse de la serie modelada de la OIT. Las comparaciones son descriptivas, porque las fuentes nacionales pueden presentar diferencias metodológicas.
+
+En Costa Rica, el desempleo aumentó entre los años anteriores a la pandemia y alcanzó su mayor nivel durante la crisis sanitaria de 2020-2021. La interrupción de actividades y la reducción del gasto agregado afectaron la producción y la demanda derivada de trabajo; en consecuencia, una parte de la fuerza laboral quedó desempleada. Este mecanismo es consistente con la relación inversa entre producción y desempleo documentada por Ball et al. [-@ball2017okun], aunque la magnitud del ajuste depende de las características de cada economía. Hacia 2022 se observa una recuperación respecto del máximo pandémico, sin que ello implique necesariamente la resolución de los problemas estructurales del mercado de trabajo.
+
+Alemania presentó un desempleo relativamente bajo durante el periodo. Tras la reducción previa a la pandemia, el indicador registró un aumento temporal asociado con la crisis sanitaria y posteriormente descendió. Bolivia también mostró niveles inferiores a los costarricenses, pero experimentó un aumento particularmente marcado alrededor de 2020. La comparación de incrementos porcentuales debe hacerse con cautela: cuando la tasa inicial es baja, un cambio moderado medido en puntos porcentuales puede traducirse en una variación relativa muy grande. Por ese motivo, las variaciones de la sección de cálculos deben interpretarse junto con los niveles observados.
+
+El comportamiento de Bolivia también ilustra una limitación del indicador: una tasa de desempleo baja no equivale necesariamente a un mercado laboral con empleo formal, ingresos suficientes y protección social. En mercados con elevada informalidad, las personas pueden ocuparse en actividades de baja productividad en lugar de permanecer desempleadas mientras buscan un puesto formal [@perry2008informalidad]. Asimismo, una caída del desempleo puede acompañarse de una reducción de la participación laboral; por tanto, no permite concluir por sí sola que todas las condiciones de empleo hayan mejorado.
+
+En conjunto, los tres países muestran que la pandemia afectó los mercados de trabajo, pero el nivel y la recuperación del desempleo fueron heterogéneos. Para Costa Rica, la persistencia de un desempleo relativamente elevado durante el periodo constituye un problema de utilización del factor trabajo, de ingresos para los hogares y de producción potencial no realizada. Su interpretación debe complementarse con la calidad del empleo y con los otros indicadores analizados en este informe, sin asumir que sus movimientos simultáneos establecen una relación causal.
+
 # Análisis del coeficiente de Gini
 
 En Costa Rica, el Gini se mantuvo casi constante entre 2016 y 2019 (entre 48.0 y 48.7), subió a 49.2 en 2020 y bajó a 47.2 en 2022, su valor más bajo del periodo (Gráfico 8.1). Con una volatilidad de 1.7 (@tbl-volatilidad), su rasgo principal es la persistencia. El aumento de 2020 coincide con la pandemia, que según CEPAL [-@cepal2022panorama] elevó la desigualdad en América Latina y rompió la tendencia decreciente que la región mostraba desde 2002. Con datos de la ENAHO, cuyas cifras difieren levemente de las del Banco Mundial, el Programa Estado de la Nación [-@pen2022estadonacion] ubica el máximo en 2021 (0.524, el más alto desde 1987) y también reporta una caída en 2022. Esa caída debe leerse con cautela, ya que Brenes Camacho [-@brenes2023desigualdad] advierte que puede reflejar la salida del mercado laboral de los trabajadores informales y menos educados, y no una mejor distribución.
@@ -430,7 +499,7 @@ El Gráfico 8.2 muestra la curva de Lorenz de 2022, construida con el porcentaje
 
 # Análisis conjunto de los indicadores
 
-Según la cadena planteada en la sección 4, se esperaría una correlación positiva entre desempleo y Gini, y negativa entre el gasto en educación y los otros dos indicadores; entre países, se esperaría que Alemania mostrara los mejores resultados en los tres indicadores y Bolivia los más débiles.
+Según la cadena planteada en la sección 4, se esperaría una correlación positiva entre desempleo y Gini, y negativa entre el gasto en educación y los otros dos indicadores; entre países, se esperaría un menor desempleo y una menor desigualdad en Alemania que en Costa Rica, sin establecer un orden necesario del gasto educativo como porcentaje del PIB.
 
 Los niveles confirman solo una parte de esa expectativa (@tbl-datos-iniciales). Alemania tiene el menor Gini y un desempleo bajo, pero es el país que menos gasta en educación, mientras que Bolivia, el que más gasta, tiene un desempleo similar al alemán, salvo en 2020 y 2021; Costa Rica, con un gasto intermedio, tiene el Gini y el desempleo más altos. Esto muestra los límites de la relación: como se explicó en la sección 7, el indicador no mide la calidad ni el gasto por estudiante, y además la desigualdad depende de factores que el gasto en educación no captura. Entre sus causas estructurales, CEPAL [-@cepal2025panorama] destaca los empleos segmentados con remuneraciones muy desiguales y los sistemas tributarios regresivos, mientras que la informalidad hace que un desempleo bajo, como el boliviano, no garantice empleos de calidad [@perry2008informalidad].
 
@@ -439,6 +508,20 @@ En las correlaciones (@tbl-correlaciones), el signo esperado entre desempleo y G
 La correlación entre gasto en educación y Gini, en cambio, es positiva en los tres países (0.56, 0.79 y 0.58), contraria a lo esperado. Esto no significa que el gasto aumente la desigualdad: en Costa Rica y Bolivia ambas series bajan durante el periodo y en Alemania ambas suben, por lo que la correlación recoge tendencias comunes, y el efecto del gasto sobre la desigualdad suele aparecer con rezago [@sylwester2002education]. Entre desempleo y gasto, la correlación es negativa en Costa Rica (-0.41), como se esperaba, casi nula en Alemania (-0.18) y positiva en Bolivia (0.64), aunque, como se mostró en la sección 6, esta última baja a 0.05 si se excluye 2020.
 
 En síntesis, los datos respaldan el vínculo entre desempleo y desigualdad durante la pandemia, pero no la asociación esperada entre el gasto en educación y los otros indicadores, lo cual, con siete observaciones y efectos rezagados, no prueba que esa relación no exista. Para Costa Rica, lo más relevante es que destina a la educación una proporción del PIB mayor que la de Alemania y que el promedio de 5 % de los países de la OCDE [@ocde2025movilidad] y, aun así, tiene más desigualdad y más desempleo que los otros dos países en todos los años, lo que sugiere que el reto está más en la eficiencia y la calidad del gasto que en su monto [@ocde2023costarica].
+
+# Consideraciones finales y recomendaciones de política económica
+
+La comparación de Costa Rica, Alemania y Bolivia entre 2016 y 2022 evidencia que el esfuerzo presupuestario en educación, el desempleo y la desigualdad no presentan una relación mecánica. Costa Rica registró un desempleo y un coeficiente de Gini elevados frente a los otros países, pese a destinar una proporción importante del PIB al gasto educativo. Alemania combinó menores niveles de desempleo y desigualdad con una proporción más reducida del PIB destinada a educación, mientras que Bolivia mostró un desempleo relativamente bajo que no puede interpretarse de forma aislada de la informalidad. Estos resultados no permiten establecer que el gasto educativo sea ineficaz: el indicador mide recursos respecto al PIB, no calidad, eficiencia ni gasto por estudiante.
+
+La perturbación de 2020 coincidió con aumentos del desempleo y de la desigualdad en los países analizados, pero las correlaciones obtenidas con siete observaciones anuales son frágiles y están expuestas a tendencias comunes y choques transitorios. Por tanto, los resultados permiten formular prioridades de política, pero no estimar el efecto causal de medidas concretas. Dada la magnitud relativa del desempleo costarricense y las limitaciones del gasto educativo, se proponen tres líneas de acción.
+
+En primer lugar, **fortalecer la articulación entre educación y mercado laboral** mediante la actualización de programas de educación técnica, la formación en competencias digitales y técnicas, y la coordinación con sectores que demandan personal calificado. La OCDE [-@ocde2025costarica] identifica desajustes entre las competencias disponibles y las necesidades de las empresas en Costa Rica. La medida debe acompañarse de seguimiento a la inserción laboral de las personas egresadas, para evaluar si la formación efectivamente mejora sus oportunidades. El propósito es reducir desajustes estructurales, no atribuir a la educación la totalidad del desempleo.
+
+En segundo lugar, **facilitar la creación de empleo formal** mediante la simplificación de trámites para nuevas empresas, la revisión de barreras de contratación y el fortalecimiento de los servicios de intermediación y capacitación laboral. La OCDE [-@ocde2025costarica] destaca los costos no salariales, las cargas administrativas y la insuficiencia de habilidades como obstáculos para la formalización. Reducir estas barreras podría ampliar el acceso a empleos con mayor estabilidad y protección social, aunque su impacto distributivo dependerá de la cobertura de las medidas y de las remuneraciones obtenidas.
+
+En tercer lugar, **mejorar la eficacia y la focalización del gasto público en educación**. Ante las dificultades de aprendizaje y las restricciones presupuestarias, conviene priorizar la recuperación de aprendizajes fundamentales, la permanencia estudiantil y el apoyo a estudiantes de hogares con menores ingresos [@pen2023educacion]. Esta recomendación no supone que deba reducirse el gasto: plantea evaluar sus resultados y dirigirlo hacia intervenciones con capacidad de ampliar oportunidades educativas. La OCDE [-@ocde2023costarica] también subraya que un gasto elevado no garantiza por sí mismo mejores resultados.
+
+En síntesis, la política económica costarricense debe abordar conjuntamente la calidad de la educación, la inserción en empleo formal y la desigualdad de oportunidades. La evidencia presentada sugiere la conveniencia de coordinar estas intervenciones y evaluar sus resultados a mediano y largo plazo, dado que la formación de capital humano produce efectos rezagados y el desempeño laboral también depende de la estructura productiva y de las condiciones macroeconómicas.
 
 \newpage
 
