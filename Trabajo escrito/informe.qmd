@@ -613,7 +613,7 @@ kable(
   booktabs = TRUE,
   longtable = TRUE,
   col.names = c("Comentario del docente", "Cómo se solventó", "En qué parte del documento"),
-  caption = "Ajustes realizados al avance del Policy Report según comentario del docente"
+  caption = "Ajustes realizados al avance del Policy Report según los comentarios del docente"
 ) |>
   kable_styling(latex_options = "HOLD_position", full_width = FALSE, font_size = 9) |>
   column_spec(1, width = "4.0cm") |>
